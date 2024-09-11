@@ -169,7 +169,7 @@ def check_windows_service_installation_status():
     # Append with nssm.exe.
     nssm_path = os.path.join(pwd, "nssm.exe")
 
-    return subprocess.run([nssm_path, "status", SERVICE_NAME], capture_output=True, text=True).returncode
+    return subprocess.run([nssm_path, "status", SERVICE_NAME]).returncode == 0
 
 # Check if string matches with nssm output.
 def nssm_contains(nssm_output, string_value):
@@ -236,17 +236,17 @@ elif ch == "3":
         if is_systemd_available():
             status = check_linux_service_installation_status()
             if status:
-                print(f"Service {SERVICE_NAME} is running.")
+                print(f"Service {SERVICE_NAME} is available.")
             else:
-                print(f"Service {SERVICE_NAME} is not running.")
+                print(f"Service {SERVICE_NAME} is not available.")
         else:
             print("Systemd is not available. Aborting status check.")
     elif platform.system() == "Windows":
         status = check_windows_service_installation_status()
         if status:
-            print(f"Service {SERVICE_NAME} is running.")
+            print(f"Service {SERVICE_NAME} is available.")
         else:
-            print(f"Service {SERVICE_NAME} is not running.")
+            print(f"Service {SERVICE_NAME} is not available.")
     else:
         print("Unsupported OS.")
 elif ch == "4":
